@@ -1,0 +1,5 @@
+*.db
+app.production.json
+app.development.json
+Beautiful-Rising-Content
+local
