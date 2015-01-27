@@ -12,6 +12,8 @@ Currently, it converts between Markdown and .docx (contemporary version of MS Wo
 
 Under the hood, this bot simply uses the incredibly-powerful [pandoc](http://johnmacfarlane.net/pandoc/) library. It could be easily extended to do a variety of interesting conversion tasks. For now, it just does what is needed for the [Beautiful Rising](http://beautifulrising.org/) at this time (and does it in a fairly unsophisticated way!).
 
+You can see an [example commit here](https://github.com/BeautifulTrouble/Beautiful-Rising-Content/commit/0bfcd01279d80d915fe9696e8793df637fdf4d11) and the [triggering commit is here](https://github.com/BeautifulTrouble/Beautiful-Rising-Content/commit/ca5d62a8396f1fd5c6bf82d987c62615540f4988).
+
 ## Install requirements
 
 * A relatively "modern" version of Perl (5.20+ recommended)
