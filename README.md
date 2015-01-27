@@ -121,6 +121,10 @@ Those flags will load the app.production.json configuration file instead of the 
 * [x] Deal with the fact that pandoc can't convert odt to markdown :thumbsdown: (might need another library, https://github.com/search?utf8=%E2%9C%93&q=odt+html). For now, skipping if the added/modified file is .odt
 * [x] Bootstrap the repo on first run
 * [x] ~~Ignore~~ Create folders without the right destinations (markdown, msword, openoffice)
+* [ ] Simple .odt to markdown & docx conversion
+  * Here are some approaches/libraries to explore:
+    * `unoconv -f html input.odt && pandoc input.html -o output.whatever` (http://dag.wiee.rs/home-made/unoconv/)
+    * `lowriter --headless --convert-to html myfile.odt` 
 * [ ] Abilty to set a different Github user to commit as
 * [ ] Make things more sensible
 * [ ] Abstract this into a possibly useful generic library/tool
