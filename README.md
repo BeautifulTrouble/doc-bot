@@ -1,4 +1,4 @@
-Beautiful Rising's Fair Trade Documnent Conversion Bot
+Beautiful Rising's Fair Trade Document Conversion Bot
 ------------------------------------------------------------
 
 This is a rudimentary "doc bot" that:
