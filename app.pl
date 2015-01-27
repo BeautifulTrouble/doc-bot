@@ -70,7 +70,6 @@ app->minion->add_task(
 
             # Do I have an adequate directory to put this file in?
             my $target_dir = File::Spec->catdir( $repo, $dirs[0], $format_dirs{$to_create} );
-            $job->app->log->info( $target_dir );
             unless ( -d $target_dir ) {
                 $job->app->log->info( "No target directory, creating..." );
                 mkdir $target_dir;
