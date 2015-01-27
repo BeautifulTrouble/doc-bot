@@ -5,12 +5,14 @@ use Mojo::Util qw(dumper);
 use FindBin qw($Bin);
 use File::Spec::Functions;
 
+# Configuration
 my $config = plugin 'JSONConfig';
 app->secrets( [ $config->{'app_secret'} ] );
 plugin Minion => { File => $config->{'minion_db'} };
 my $repo     = $config->{'repo'};
 my $repo_url = $config->{'repo_url'};
 
+# Startup/Bootstrap
 unless ( -d $repo ) {
     my $git_clone = `git clone $repo_url`;
 }
@@ -52,6 +54,7 @@ app->minion->add_task(
         #### TODO replace this with something more sensible:
         my ( $ext )       = $file =~ /\.(\w+)$/;
         my ( $file_name ) = $file =~ /(.*)\./;
+        ####
         if ( $ext eq 'odt' ) {
             $job->app->log->info( "No support for odt yet..." );
             return;
@@ -61,7 +64,6 @@ app->minion->add_task(
                 "The file doesn't appear to be in an expected directory..." );
             return;
         }
-        ####
         my $alts = $format_alts{$ext};
 
         # Output the modified file in the alternate formats
@@ -69,7 +71,8 @@ app->minion->add_task(
             $job->app->log->info( "Going to create: $to_create" );
 
             # Do I have an adequate directory to put this file in?
-            my $target_dir = File::Spec->catdir( $repo, $dirs[0], $format_dirs{$to_create} );
+            my $target_dir = File::Spec->catdir( $repo, $dirs[0],
+                $format_dirs{$to_create} );
             unless ( -d $target_dir ) {
                 $job->app->log->info( "No target directory, creating..." );
                 mkdir $target_dir;
@@ -86,7 +89,6 @@ app->minion->add_task(
         # Git push the changes back to the repo
         my $git_push = `cd $repo && git push`;
 
-        # TODO Send a report to someone?
     }
 );
 
