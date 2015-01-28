@@ -20,7 +20,7 @@ You can see an [example commit here](https://github.com/BeautifulTrouble/Beautif
 
 ## Installation
 
-### 0. Install Perl (if requierd)
+### Install Perl (if requierd)
 
 These days, I recommend using [plenv](https://github.com/tokuhirom/plenv) to install a local version of Perl that doesn't muck with your system perl binary.
 
