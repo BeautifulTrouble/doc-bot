@@ -38,11 +38,11 @@ To do that, just:
 
 `plenv install 5.20.0`
 
-### 1. Clone the repository 
+### Clone the repository 
 
 Like so: `git clone https://github.com/BeautifulTrouble/doc-bot.git`
 
-### 2. Install the Perl dependencies
+### Install the Perl dependencies
 
 From here, if you don't have a global install of [cpanm](https://github.com/miyagawa/cpanminus), you'll want to install that with the command `plenv install-cpanm` (this assumes that you installed Perl with `plenv` as described above).
 
@@ -58,7 +58,7 @@ Then install the project requirements into a local directory so that you know yo
 
 When that finishes, you should have a `local` directory full of libraries.
 
-### 3. Get and edit the configuration files
+### Get and edit the configuration files
 
 You'll need:
  
@@ -81,7 +81,7 @@ Mine looks like this:
 }
 ```
 
-### 4. Start the development server
+### Start the development server
 
 At this point you should have everything needed to start developing. Run the app in development mode with:
 
@@ -93,7 +93,7 @@ And, if everythign worked, you should see:
 
 You can test things out by posting a typical Github web hook payload to /github
 
-### 5. Start the job queue
+### Start the job queue
 
 You can start the job queue worker with:
 
@@ -103,7 +103,7 @@ And you can list the jobs and their status with:
 
 `carton exec -- ./app.pl minion job`
 
-### 6. Deployment
+### Deployment
 
 On a production server, you'll want to start the app using:
 
