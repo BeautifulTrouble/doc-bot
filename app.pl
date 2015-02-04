@@ -31,8 +31,8 @@ app->minion->add_task(
         # Determine which formats need to be output (.md, .docx, .odt)
         my %format_alts = (
             md   => [ 'docx', 'odt' ],
-            docx => [ 'odt',  'markdown' ],
-            odt  => [ 'markdown',   'docx' ]
+            docx => [ 'odt',  'md' ],
+            odt  => [ 'md',   'docx' ]
         );
 
         # Dictionary for the extentions
@@ -64,7 +64,7 @@ app->minion->add_task(
                 "The file doesn't appear to be in an expected directory..." );
             return;
         }
-        my $alts = $format_alts{$ext};
+        my $alts = $format_alts{ $ext };
 
         # Output the modified file in the alternate formats
         for my $to_create ( @$alts ) {
@@ -72,7 +72,7 @@ app->minion->add_task(
 
             # Do I have an adequate directory to put this file in?
             my $target_dir = File::Spec->catdir( $repo, $dirs[0],
-                $format_dirs{$to_create} );
+                $format_dirs{ $to_create } );
             unless ( -d $target_dir ) {
                 $job->app->log->info( "No target directory, creating..." );
                 mkdir $target_dir;
