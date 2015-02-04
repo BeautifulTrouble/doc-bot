@@ -78,8 +78,9 @@ app->minion->add_task(
                 mkdir $target_dir;
             }
             my $cmd
-                = "pandoc -f $formats{ $ext } -t $to_create $repo/$directories$file -o $target_dir/$file_name.$to_create";
+                = "pandoc -f $formats{ $ext } -t $formats{ $to_create } $repo/$directories$file -o $target_dir/$file_name.$to_create";
             my $output = `$cmd`;
+            $job->app->log->info( $cmd );
         }
 
         # Git commit the changes
