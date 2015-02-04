@@ -59,6 +59,10 @@ app->minion->add_task(
             $job->app->log->info( "No support for odt yet..." );
             return;
         }
+        unless ( $formats{ $ext } ) {
+            $job->app->log->info("We don't support $ext just yet...");
+            return;
+        }
         unless ( $directories =~ /$format_dirs{ $ext }/ ) {
             $job->app->log->info(
                 "The file doesn't appear to be in an expected directory..." );
