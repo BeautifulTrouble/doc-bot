@@ -31,8 +31,8 @@ app->minion->add_task(
         # Determine which formats need to be output (.md, .docx, .odt)
         my %format_alts = (
             md   => [ 'docx', 'odt' ],
-            docx => [ 'odt',  'md' ],
-            odt  => [ 'md',   'docx' ]
+            docx => [ 'odt',  'markdown' ],
+            odt  => [ 'markdown',   'docx' ]
         );
 
         # Dictionary for the extentions
