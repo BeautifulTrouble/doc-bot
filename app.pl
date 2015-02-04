@@ -102,7 +102,7 @@ post '/github' => sub {
 
         # If this is a doc bot commit, skip it
         if ( $commit->{'message'} =~ /Doc bot:/g ) {
-            $c->app->log->debug(
+            $c->app->log->info(
                 "Skipping because this is a doc bot commit" );
             next;
         }
@@ -112,6 +112,7 @@ post '/github' => sub {
             my @changes = @{ $commit->{'modified'} };
             push( @changes, @{ $commit->{'added'} } );
             for my $mod ( @changes ) {
+                $c->app->log->info("Adding $mod to job queue");
                 $jobs++;
                 $c->minion->enqueue( 'convert_doc', [$mod] );
             }
