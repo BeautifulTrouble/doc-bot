@@ -55,12 +55,12 @@ app->minion->add_task(
         my ( $ext )       = $file =~ /\.(\w+)$/;
         my ( $file_name ) = $file =~ /(.*)\./;
         ####
-        if ( $ext eq 'odt' ) {
-            $job->app->log->info( "No support for odt yet..." );
-            return;
-        }
-        unless ( $formats{ $ext } ) {
-            $job->app->log->info("We don't support $ext just yet...");
+        #if ( $ext eq 'odt' ) {
+        #$job->app->log->info( "No support for odt yet..." );
+        #return;
+        #}
+        unless ( $formats{$ext} ) {
+            $job->app->log->info( "We don't support $ext just yet..." );
             return;
         }
         unless ( $directories =~ /$format_dirs{ $ext }/ ) {
@@ -68,7 +68,7 @@ app->minion->add_task(
                 "The file doesn't appear to be in an expected directory..." );
             return;
         }
-        my $alts = $format_alts{ $ext };
+        my $alts = $format_alts{$ext};
 
         # Output the modified file in the alternate formats
         for my $to_create ( @$alts ) {
@@ -76,15 +76,31 @@ app->minion->add_task(
 
             # Do I have an adequate directory to put this file in?
             my $target_dir = File::Spec->catdir( $repo, $dirs[0],
-                $format_dirs{ $to_create } );
+                $format_dirs{$to_create} );
             unless ( -d $target_dir ) {
                 $job->app->log->info( "No target directory, creating..." );
                 mkdir $target_dir;
             }
-            my $cmd
-                = "pandoc -f $formats{ $ext } -t $formats{ $to_create } $repo/$directories$file -o $target_dir/$file_name.$to_create";
-            my $output = `$cmd`;
-            $job->app->log->info( $cmd );
+            my $cmd;
+            if ( $ext eq 'odt' ) {    # Use odt2html rubygem for odt files
+                $job->app->log->info( "Making HTML from odt for $doc" );
+                my $output_html
+                    = `odt2html --in $repo/$doc --out $target_dir/$file_name.html`;
+                $job->app->log->info( "HTML output is: $output_html" )
+                    if $output_html;
+                $cmd
+                    = "pandoc -f html -t $formats{ $to_create } $target_dir/$file_name.html -o $target_dir/$file_name.$to_create";
+                my $output = `$cmd`;
+                $job->app->log->info( $cmd );
+                my $output_delete = `rm $target_dir/$file_name.html`;
+                $job->app->log->info( $output_delete ) if $output_delete;
+            }
+            else {    # Otherwise, just use pandoc
+                $cmd
+                    = "pandoc -f $formats{ $ext } -t $formats{ $to_create } $repo/$directories$file -o $target_dir/$file_name.$to_create";
+                my $output = `$cmd`;
+                $job->app->log->info( $cmd );
+            }
         }
 
         # Git commit the changes
@@ -107,8 +123,7 @@ post '/github' => sub {
 
         # If this is a doc bot commit, skip it
         if ( $commit->{'message'} =~ /Doc bot:/g ) {
-            $c->app->log->info(
-                "Skipping because this is a doc bot commit" );
+            $c->app->log->info( "Skipping because this is a doc bot commit" );
             next;
         }
 
@@ -117,7 +132,7 @@ post '/github' => sub {
             my @changes = @{ $commit->{'modified'} };
             push( @changes, @{ $commit->{'added'} } );
             for my $mod ( @changes ) {
-                $c->app->log->info("Adding $mod to job queue");
+                $c->app->log->info( "Adding $mod to job queue" );
                 $jobs++;
                 $c->minion->enqueue( 'convert_doc', [$mod] );
             }
